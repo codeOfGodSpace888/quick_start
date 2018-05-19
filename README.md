@@ -6,7 +6,8 @@ Spring Boot Demo
 	
 |Author|北极的大企鹅|
 |---|---
-|博客园|http://www.cnblogs.com/liuyangfirst/
+|博客园随笔(二)|http://www.cnblogs.com/liuyangfirst/p/9062346.html
+|博客园随笔(一)|http://www.cnblogs.com/liuyangfirst/p/9062309.html
 
 
 ****
