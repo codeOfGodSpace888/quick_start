@@ -1,4 +1,4 @@
-Spring Boot Demo
+Spring Boot 配置文件
 ===========================
 一些使用springboot学习的小例子.
 
@@ -6,152 +6,85 @@ Spring Boot Demo
 	
 |Author|北极的大企鹅|
 |---|---
-|博客园随笔(二)|http://www.cnblogs.com/liuyangfirst/p/9062346.html
-|博客园随笔(一)|http://www.cnblogs.com/liuyangfirst/p/9062309.html
+|博客园|http://www.cnblogs.com/liuyangfirst/
 
 
 ****
 ## 目录
-* [从Hello World 开始写起](#横线)
-* [pom的另一种搭建方式](#横线)
-* [关键的三个注解](#横线)
-* [注解替换](#横线)
-* [ SpringApplication.run()方法](#横线)
-* [ SpringApplication三种调用方法](#横线)
+* [读取配置文件的方式](#横线)
+* [常量引用和变量引用获取](#横线)
+* [默认值获取方式](#横线)
+* [外部文件获取方式](#横线)
+* [注解获取方式](#横线)
+* [编译器修改方式](#横线)
 
 
-从Hello World 开始写起
+读取配置文件的方式
 ------
 ```
-    QuickStartApplication写法是一个实例
-    Controller 写法是一个web实例
+      // 读取配置文档获取本地ip地址
+            System.out.println("*********第一种本地IP地址是:" + applicationContext.getEnvironment().getProperty("local.ip"));
+    
+            // 第二种注入获取方式
+            applicationContext.getBean(UserConfig.class).show();
+    
+            // 第三种方式value注解获取
+            applicationContext.getBean(UserPort.class).show();
+    
+            // 第四种整数类型获取
+            applicationContext.getBean(UserTypePort.class).show();
+    
+            //第五种转化整数类型获取
+            applicationContext.getBean(UserTypePort.class).show2();
 ```
 
-pom的另一种搭建方式
-------
-```xml
-
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.springboot</groupId>
-    <artifactId>quick_start</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
-    <name>quick_start</name>
-    <url>http://maven.apache.org</url>
-    <description>Demo project for Spring Boot</description>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <java.version>1.8</java.version>
-    </properties>
-
-    <dependencies>
-        <!--不使用parent方式进行依赖,需要scope和type设置-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <version>2.0.2.RELEASE</version>
-            <scope>import</scope>
-            <type>pom</type>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-
-</project>
-
-
-```
-关键的三个注解
+常量引用和变量引用获取
 ------
 ```
-    @SpringBootApplication
-           点开查看源码是由多个注解合成的注解，其中主要的注解有：
-                  @SpringBootConfiguration
-                  @EnableAutoConfiguration
-                  @ComponentScan
-                  
-                  
-           三个关键的注解：
-           @ComponentScan 自动扫描加载进来的包，-----------可以扫描自动加载的bean
-           @EnableAutoConfiguration 启动自动配置
-           @SpringBootConfiguration 继承了@Configuration，所以可以使用@Configuration内容
-           @Configuration是spring提供的注解，@SpringBootConfiguration是springboot提供的注解。效果几乎一样，用哪个看自己的习惯。
+
+ //常量引用和变量引用获取
+        applicationContext.getBean(UserVariable.class).show();
+
+```
+默认值获取方式
+------
+```
+   //默认值获取方式
+          applicationContext.getBean(UserTomcatPortDefault.class).show();
+  
+          //默认值第二种获取方式
+          applicationContext.getBean(UserTomcatPortDefault2.class).show();
            
 ```
-注解替换
-------
-```java
-
-    //@SpringBootApplication
-    
-    @ComponentScan
-    @EnableAutoConfiguration
-    public class QuickStartApplication {
-    
-        @Bean
-        public Runnable createRunnable() {
-    
-            return () -> {
-                System.out.println("Spring Boot is Run");
-            };
-    
-        }
-    
-        public static void main(String[] args) {
-            ConfigurableApplicationContext applicationContext = SpringApplication.run(QuickStartApplication.class,args);
-            applicationContext.getBean(Runnable.class).run();
-            System.out.println(applicationContext.getBean(User.class));
-        }
-    }
-    
-```
-SpringApplication.run()方法
+外部文件获取方式
 ------
 ```
 
-  ConfigurableApplicationContext applicationContext = SpringApplication.run(QuickStartApplication.class,args);
-
-   点开run()方法:
-        public static ConfigurableApplicationContext run(Class<?> primarySource, String... args) {
-               return run(new Class[]{primarySource}, args);
-           }
-
-     primarySource --------------------指的是从哪里开始运行,配置类,特殊注解的类
-
-     用的多的就是标注了SpringApplication注解的类
-     
-     args  -----------------------java main方法的参数
+     //JDBC 获取方式
+           applicationContext.getBean(JdbcConfig.class).show();
+   
+           //外部文件获取方式
+           applicationContext.getBean(JdbcOutConfig.class).show();
+   
+           //外部文件2获取方式
+           applicationContext.getBean(JdbcOutTWOConfig.class).show();
+    
+```
+注解获取方式
+------
+```
+  // 另一个注解获取方式
+        applicationContext.getBean(DateSourceConfig.class).show();
+        // 另一个注解获取方式,配置路径
+        applicationContext.getBean(DateSourceTWOConfig.class).show();
 
 
 ```
+
+编译器修改方式
+------
+|博客园|http://www.cnblogs.com/liuyangfirst/p/9062368.html
+
+
 --------------------------------
 [csdn]:http://www.cnblogs.com/liuyangfirst/ "我的博客"
