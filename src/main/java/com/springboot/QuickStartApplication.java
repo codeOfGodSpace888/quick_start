@@ -60,6 +60,16 @@ public class QuickStartApplication {
         // 另一个注解获取方式,配置路径
         applicationContext.getBean(DateSourceTWOConfig.class).show();
 
+
+        //获取yml数据
+        applicationContext.getBean(YmlConfig.class).show();
+
+        //读取集合
+        System.out.println(applicationContext.getBean(DateSourceThreeConfig.class).toString());
+
+        // 获取EnvironmentPostProcessor文件配置
+        applicationContext.getBean(MyEnvironmentPostProcessor.class).show();
+
         applicationContext.close();
     }
 }
