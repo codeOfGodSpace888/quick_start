@@ -7,5 +7,5 @@ package com.springboot.com.springboot.bean;
  * @Date: 2018/5/21 23:24
  * @Description: quick_start
  */
-public class User {
+public class Role {
 }

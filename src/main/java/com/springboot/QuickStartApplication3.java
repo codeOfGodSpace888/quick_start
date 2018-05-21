@@ -1,13 +1,12 @@
 package com.springboot;
 
-import com.springboot.com.springboot.bean.Jeep;
-import com.springboot.properties.TomcatProperties;
+import com.springboot.com.springboot.conf.MyConf;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.context.annotation.Import;
 
 /******************************
  * @Author : liuyang
@@ -27,18 +26,15 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableConfigurationProperties
 @ComponentScan
 @EnableAutoConfiguration
-@EnableAsync
-public class QuickStartApplication {
+@Import(MyConf.class)
+public class QuickStartApplication3 {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(QuickStartApplication.class,args);
-        // tomcat配置文件
-        System.out.println(applicationContext.getBean(TomcatProperties.class));
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(QuickStartApplication3.class,args);
 
-        // runnable配置测试
-        applicationContext.getBean(Runnable.class).run();
+        //导入配置文件方式
+        System.out.println(applicationContext.getBeansOfType(Runnable.class));
 
-        System.out.println("------------------end--------------------");
         applicationContext.close();
 
     }

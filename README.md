@@ -1,4 +1,4 @@
-Spring Boot 根据条件的自动配置
+Spring Boot @Enable注解及工作原理
 ===========================
 一些使用springboot学习的小例子.
 
@@ -11,12 +11,10 @@ Spring Boot 根据条件的自动配置
 
 ****
 ## 目录
-* [condition不存在时候的测试](#横线)
-* [自定义配置自动装配的bean](#横线)
-* [放于类上的自动配置](#横线)
-* [获取ConditionalOnProperty,](#横线)
-* [获取ConditionalOnClass](#横线)
-* [获取ConditionalOnBean](#横线)
+* [tomcat配置文件](#横线)
+* [@EnableAsync使用](#横线)
+* [@EnableAsync的使用](#横线)
+* [@Import使用](#横线)
 
 --------------------------------
 [csdn]:http://www.cnblogs.com/liuyangfirst/ "我的博客"
