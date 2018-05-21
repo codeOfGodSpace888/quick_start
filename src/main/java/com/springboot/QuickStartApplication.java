@@ -1,6 +1,9 @@
 package com.springboot;
 
-import com.springboot.conf.*;
+import com.springboot.config.GsonConditionOnClassConfig;
+import com.springboot.not.impl.EncodingConvert;
+import com.springboot.not.impl.EncodingConvert2;
+import com.springboot.not.impl.EncodingConvert3;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -8,68 +11,47 @@ import org.springframework.context.ConfigurableApplicationContext;
 /******************************
  * @Author : liuyang
  * @ClassName : QuickStartApplication
- * @Date : 2018 五月  20
- * @Time : 01:05:59
+ * @Date : 2018 五月  21
+ * @Time : 19:05:831
  * @Type : SpringBoot
  * @Version : 1.0
  * @Return :
  * @Description :
  *******************************/
-
 @SpringBootApplication
 public class QuickStartApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(QuickStartApplication.class,args);
 
-        // 读取配置文档获取本地ip地址
-        System.out.println("*********第一种本地IP地址是:" + applicationContext.getEnvironment().getProperty("local.ip"));
+        // 没有自动配置装配的bean,保留所有EncodingConvert名字相关的类,其他注释,有效
+        System.out.println("--------------------1-------------------------");
+        System.out.println(applicationContext.getBeansOfType(EncodingConvert.class));
 
-        // 第二种注入获取方式
-        applicationContext.getBean(UserConfig.class).show();
+        //配置自动装配的bean,保留所有EncodingConvert2名字相关的类,其他注释,有效
+        System.out.println("--------------------2-------------------------");
+        System.out.println(System.getProperty("file.encoding"));
+        System.out.println(applicationContext.getBeansOfType(EncodingConvert2.class));
 
-        // 第三种方式value注解获取
-        applicationContext.getBean(UserPort.class).show();
+        //放于类上的自动配置
+        System.out.println("--------------------3-------------------------");
+        System.out.println(System.getProperty("file.encoding"));
+        System.out.println(applicationContext.getBeansOfType(EncodingConvert3.class));
 
-        // 第四种整数类型获取
-        applicationContext.getBean(UserTypePort.class).show();
+        //获取ConditionalOnProperty,配置文档的内容存在,才会装配
+        System.out.println("--------------------4-------------------------");
+        System.out.println(applicationContext.getBeansOfType(Runnable.class));
 
-        //第五种转化整数类型获取
-        applicationContext.getBean(UserTypePort.class).show2();
+        //获取ConditionalOnClass,配置类的内容存在,才会装配,注释上边的4
+        System.out.println("--------------------5-------------------------");
+        System.out.println(applicationContext.getBeansOfType(Runnable.class));
 
-        //常量引用和变量引用获取
-        applicationContext.getBean(UserVariable.class).show();
-
-        //默认值获取方式
-        applicationContext.getBean(UserTomcatPortDefault.class).show();
-
-        //默认值第二种获取方式
-        applicationContext.getBean(UserTomcatPortDefault2.class).show();
-
-        //JDBC 获取方式
-        applicationContext.getBean(JdbcConfig.class).show();
-
-        //外部文件获取方式
-        applicationContext.getBean(JdbcOutConfig.class).show();
-
-        //外部文件2获取方式
-        applicationContext.getBean(JdbcOutTWOConfig.class).show();
-
-        // 另一个注解获取方式
-        applicationContext.getBean(DateSourceConfig.class).show();
-        // 另一个注解获取方式,配置路径
-        applicationContext.getBean(DateSourceTWOConfig.class).show();
-
-
-        //获取yml数据
-        applicationContext.getBean(YmlConfig.class).show();
-
-        //读取集合
-        System.out.println(applicationContext.getBean(DateSourceThreeConfig.class).toString());
-
-        // 获取EnvironmentPostProcessor文件配置
-        applicationContext.getBean(MyEnvironmentPostProcessor.class).show();
+        //获取ConditionalOnBean,配置类的内容存在,才会装配,注释上边的4,5
+        System.out.println("--------------------6-------------------------");
+        System.out.println(applicationContext.getBeansOfType(Runnable.class));
 
         applicationContext.close();
+
+
     }
 }
