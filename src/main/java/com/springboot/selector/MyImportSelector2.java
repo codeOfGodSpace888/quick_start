@@ -1,6 +1,6 @@
 package com.springboot.selector;
 
-import com.springboot.annotion.diyenable.EnableLog;
+import com.springboot.annotion.diyenable.EnableLog2;
 import com.springboot.com.springboot.bean.Role;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
@@ -16,13 +16,13 @@ import org.springframework.core.type.AnnotationMetadata;
  * <p>
  * selectImports方法的返回值,必须是一个class(全称),该class会被spring容器所托管起来
  */
-public class MyImportSelector implements ImportSelector {
+public class MyImportSelector2 implements ImportSelector {
 
     @Override
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
 
         //获取注解属性name值
-        System.out.println(importingClassMetadata.getAnnotationAttributes(EnableLog.class.getName()));
+        System.out.println(importingClassMetadata.getAnnotationAttributes(EnableLog2.class.getName()));
 
 
         /**
